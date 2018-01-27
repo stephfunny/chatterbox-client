@@ -42,24 +42,22 @@
        <button id="clear-messages" class="btn btn-danger">Clear</button>
 
       </p>
-      
-<!--       <button type="submit" id="add-room" class="btn btn-success">Add room</button>
- -->
+      <div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Message</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody id="chats" class='chatMessages'>
+            </tbody>
+          </table>
+      </div>
       
     </div>
-    <div>
-      <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>User Name</th>
-              <th>Message</th>
-              <th>Created At</th>
-            </tr>
-          </thead>
-          <tbody id="chats" class='chatMessages'>
-          </tbody>
-        </table>
-    </div>
+
     
   </body>
 </html>

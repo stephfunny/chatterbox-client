@@ -13,6 +13,21 @@
 var app = {
   
   init : function() {
+    app.fetch();
+    app.handleUsernameClick();
+    app.handleSubmit();
+       
+    $('#clear-messages').click( function() {
+      app.clearMessages();
+    });
+
+    $('body').on('click', '.username', function(){
+      app.handleUsernameClick($(this).text());  
+    });
+
+    $('#clear-messages').click( function() {
+      app.clearMessages();
+    });
    
   },
   
@@ -38,22 +53,45 @@ var app = {
   
   fetch : function() { 
 
-    $.get( this.server, function(data, status) { 
-      app.displayMessages(data);
+    // $.get( this.server, function(data, status) { 
+    //   app.displayMessages(data);
+    // });
+    // data: {order:'-createdAt'},
+      
+    $.ajax({
+      // This is the url you should use to communicate with the parse API server.
+      url: this.server,
+      type: 'GET',
+      data: {order:'-createdAt'},
+      contentType: 'application/json',
+      success: function (data) {
+        app.displayMessages(data);
+      },
+      error: function (data) {
+        console.error('chatterbox: Failed to send receive', data);
+      }
     });
+
+
+
   },
-  
+  handleSubmit: function(message) {
+    app.send(message);
+  },
+
   clearMessages: function() {
     $('#chats').empty();
   },
   
+  handleUsernameClick: function(username) {
+    console.log('handle click ->',username);
+  },
 
   renderMessage: function(message) {
-   $('#chats').append("<tr><td>" + message['username']+"</td><td>"+message['text']+"</td><td>"+message['roomname']+"</td> </tr>");
+    $('#chats').append("<tr><td>" + message['username']+"</td><td>"+message['text']+"</td><td>"+message['roomname']+"</td> </tr>");
   },  
   
   renderRoom: function(roomName) {
-    //data['results'];
     $('#roomSelect').append("<option value=" + roomName + ">" + roomName + "</option>");
   },
   
@@ -62,15 +100,15 @@ var app = {
     var roomNames = [];
     var roomString;
     data['results'].forEach( (message) =>{
-      messageString += "<tr><td>" + message['username']+"</td><td>"+message['text']+"</td><td>"+message['createdAt']+"</td> </tr>";
+      messageString += "<tr><td><a class='username' href='#'>" + message['username'] + "</a></td><td>" + message['text'] + "</td><td>" + message['createdAt'] + "</td> </tr>";
       roomNames.push(message['roomname']);
     });
     roomNames = _.uniq(roomNames);
     roomNames.forEach(function(item) {
       
-      if (item !=='' && item !== undefined && !item.includes('<')) {
+      if (item !== null && item !=='' && item !== undefined && !item.includes('<')) {
         roomString += "<option value=" + item + ">" + item + "</option>";
-      }
+      };
 
     });
     
@@ -78,27 +116,10 @@ var app = {
     $('.chatMessages').append(messageString);
   }
   
-  
 };
 
 
-
-
-
-
 $(document).ready(function() {
-     app.init();
-     app.fetch()
-     
-  $('#clear-messages').click( function() {
-      app.clearMessages();
- });
-  
-  
+  app.init();
+ 
 });
-
-          // console.log('Id',message['objectId']);
-          // console.log('user name ->',message['username']);
-          // console.log('room name ->',message['roomname']);
-          // console.log('Text',message['text']);
-          // console.log('Created At',message['createdAt']);
