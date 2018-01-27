@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -25,19 +26,40 @@
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="main">
+    <div id="main" class="form-group">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
       <p><select id="room" name="room">
         <option value="">select room</option>
-      </select></p>
+      </select><a href="#" id="add-room"> &nbsp Add a room</a>
+    
+    </p>
       <p>
-        <input id="message" type="text" name="message" placeholder="Your Message">
+        <input class="form-control" id="message" type="text" name="message" placeholder="Your Message">
       </p>
       <p>
-        <button type="submit">Send</button>
+        <button type="submit" class="btn btn-success">Send</button>
+       <button id="clear-messages" class="btn btn-danger">Clear</button>
+
       </p>
+      
+<!--       <button type="submit" id="add-room" class="btn btn-success">Add room</button>
+ -->
+      
     </div>
-    <div id="chats"></div>
+    <div>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Message</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody id="chats" class='chatMessages'>
+          </tbody>
+        </table>
+    </div>
+    
   </body>
 </html>
